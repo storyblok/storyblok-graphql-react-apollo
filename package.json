@@ -8,7 +8,8 @@
     "react": "^16.8.6",
     "react-apollo": "^2.5.8",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "storyblok-react": "0.0.9"
   },
   "scripts": {
     "start": "react-scripts start",

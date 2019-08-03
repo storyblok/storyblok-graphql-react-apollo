@@ -1,8 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Query } from 'react-apollo';
 import { gql } from 'apollo-boost';
+import Components from './components'
 
 const query = gql`{
   PageItem(id: "home") {
@@ -12,29 +12,36 @@ const query = gql`{
       _uid
       component
       body
+      teasered_products(fields: ["name", "image"]) {
+        content
+      }
     }
   }
 }`
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
-      <Query query={query}>
+class App extends React.Component {
+  constructor(props) {
+    window.storyblok.on(['change', 'published'], () => {
+      this.forceUpdate()
+    })
+    super(props)
+  }
+
+  render() {
+    return (
+      <Query query={query} variables={{timestamp: Date.now()}} fetchPolicy="network-only">
         {result => {
-          if (result.loading) return <p>loading...</p>;
-          if (result.error) return <p>{result.error.message}</p>;
+          if (result.loading) return <p className="loading">loading...</p>;
+          if (result.error) return <p className="loading">{result.error.message}</p>;
           return (
-            <div>
-              {result.data.PageItem.slug}
+            <div className="app">
+              {Components(result.data.PageItem.content)}
             </div>
           );
         }}
       </Query>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;
