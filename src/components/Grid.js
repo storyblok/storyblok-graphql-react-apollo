@@ -1,13 +1,9 @@
-import Components from './index'
-import SbEditable from 'storyblok-react'
-import React  from 'react'
+import Components from "./index";
+import { sbEditable } from "@storyblok/storyblok-editable";
+import React from "react";
 
 export default (props) => (
-  <SbEditable content={props.content}>
-    <div className="grid">
-      {props.content.columns.map((blok) =>
-        Components(blok)
-      )}
-    </div>
-  </SbEditable>
-)
+  <div {...sbEditable(props.content)} className="grid">
+    {props.content.columns.map((blok) => Components(blok))}
+  </div>
+);
