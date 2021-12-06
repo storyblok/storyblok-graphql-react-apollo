@@ -1,31 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import React from "react";
+import ReactDOM from "react-dom";
+import {
+	ApolloClient,
+	InMemoryCache,
+	ApolloProvider,
+	ApolloLink,
+	concat,
+	HttpLink,
+} from "@apollo/client";
+import "./index.css";
+import App from "./App";
+
+const httpLink = new HttpLink({ uri: "https://gapi.storyblok.com/v1/api" });
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+	operation.setContext(({ headers = {} }) => ({
+		headers: {
+			...headers,
+			token: process.env.REACT_APP_PREVIEW_TOKEN,
+			version: "draft",
+		},
+	}));
+
+	return forward(operation);
+});
 
 const client = new ApolloClient({
-  uri: 'https://gapi.storyblok.com/v1/api',
-  request: operation => {
-    operation.setContext({
-      headers: {
-        token: 'QBmPtomvbW9LsjuHFiUCtgtt',
-        version: 'draft'
-      }
-    });
-  }
+	cache: new InMemoryCache(),
+	link: concat(authMiddleware, httpLink),
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
-  document.getElementById('root')
+	<ApolloProvider client={client}>
+		<App />
+	</ApolloProvider>,
+	document.getElementById("root")
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
