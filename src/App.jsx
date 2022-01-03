@@ -1,3 +1,4 @@
+import React from "react";
 import Components from "./components";
 import { useStoryblok } from "./hooks/useStoryblok";
 
