@@ -1,41 +1,18 @@
-import { useEffect } from "react";
-import { useQuery, gql } from "@apollo/client";
 import Components from "./components";
-
-const query = gql`
-	{
-		PageItem(id: "home") {
-			id
-			slug
-			content {
-				_uid
-				component
-				body
-			}
-		}
-	}
-`;
+import { useStoryblok } from "./hooks/useStoryblok";
 
 const App = () => {
-	const { loading, error, data } = useQuery(query);
-
-	useEffect(() => {
-		const { StoryblokBridge, location } = window;
-		const storyblokInstance = new StoryblokBridge();
-
-		storyblokInstance.on(["published"], () => {
-			location.reload(true);
-		});
-	}, []);
+	const preview = true;
+	const data = useStoryblok(preview);
 
 	return (
 		<>
-			{loading ? (
+			{data?.loading ? (
 				<p className="loading">loading...</p>
-			) : error ? (
-				<p className="loading">{error?.message}</p>
+			) : data?.error ? (
+				<p className="loading">{data?.error?.message}</p>
 			) : (
-				<div className="app">{Components(data?.PageItem?.content)}</div>
+				<div className="app">{Components(data?.story?.content)}</div>
 			)}
 		</>
 	);
