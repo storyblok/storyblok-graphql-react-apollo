@@ -25,7 +25,7 @@ const components = {
 };
 
 storyblokInit({
-  accessToken: "d6IKUtAUDiKyAhpJtrLFcwtt",
+  accessToken: process.env.REACT_APP_PREVIEW_TOKEN,
   components,
 });
 
@@ -35,7 +35,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      token: "d6IKUtAUDiKyAhpJtrLFcwtt",
+      token: process.env.REACT_APP_PREVIEW_TOKEN,
       version: "draft",
     },
   }));
