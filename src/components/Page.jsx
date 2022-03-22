@@ -1,10 +1,11 @@
-import { sbEditable } from "@storyblok/storyblok-editable";
-import Components from "./index";
+import { storyblokEditable, StoryblokComponent } from "@storyblok/react";
 
-const Page = ({ content }) => (
-	<div {...sbEditable(content)}>
-		{content?.body?.map((blok) => Components(blok))}
-	</div>
+const Page = ({ blok }) => (
+  <div {...storyblokEditable(blok)}>
+    {blok?.body?.map((nestedBlok) => (
+      <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
+    ))}
+  </div>
 );
 
 export default Page;
