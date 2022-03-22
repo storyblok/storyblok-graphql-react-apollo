@@ -5,8 +5,6 @@ import { useStoryblokState, StoryblokComponent } from "@storyblok/react";
 const App = () => {
   const { data } = useQuery(query);
 
-  console.log(data?.PageItem);
-
   let story = useStoryblokState(data?.PageItem);
 
   if (!story?.content) {
