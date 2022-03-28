@@ -1,10 +1,11 @@
-import { sbEditable } from "@storyblok/storyblok-editable";
-import Components from "./index";
+import { storyblokEditable, StoryblokComponent } from "@storyblok/react";
 
-const Grid = ({ content }) => (
-	<div {...sbEditable(content)} className="grid">
-		{content?.columns.map((blok) => Components(blok))}
-	</div>
+const Grid = ({ blok }) => (
+  <div {...storyblokEditable(blok)} className="grid">
+    {blok?.columns.map((nestedBlock) => (
+      <StoryblokComponent blok={nestedBlock} key={nestedBlock._uid} />
+    ))}
+  </div>
 );
 
 export default Grid;

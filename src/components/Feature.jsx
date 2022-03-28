@@ -1,11 +1,11 @@
-import { sbEditable } from "@storyblok/storyblok-editable";
+import { storyblokEditable } from "@storyblok/react";
 
-const Feature = ({ content }) => {
-	return (
-		<div {...sbEditable(content)} className="column feature">
-			{content?.name}
-		</div>
-	);
+const Feature = ({ blok }) => {
+  return (
+    <div {...storyblokEditable(blok)} className="column feature">
+      {blok?.name}
+    </div>
+  );
 };
 
 export default Feature;

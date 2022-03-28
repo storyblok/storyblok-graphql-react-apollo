@@ -1,11 +1,11 @@
-import { sbEditable } from "@storyblok/storyblok-editable";
+import { storyblokEditable } from "@storyblok/react";
 
-const Teaser = ({ content }) => {
-	return (
-		<div {...sbEditable(content)} className="teaser">
-			{content?.headline}
-		</div>
-	);
+const Teaser = ({ blok }) => {
+  return (
+    <div {...storyblokEditable(blok)} className="teaser">
+      {blok?.headline}
+    </div>
+  );
 };
 
 export default Teaser;
